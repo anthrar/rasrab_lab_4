@@ -2,7 +2,7 @@ name: Deploy-pages
 
 on:
   release:
-    types: [published, edited]
+    types: [published, edited, created]
 
 jobs:
   deploy:
