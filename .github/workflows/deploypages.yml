@@ -8,9 +8,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: check
-        run: echo "${{ github.event.release.tag_name }}"
-      
+      - name: info
+        run: echo "deploying tag ${{ github.event.release.tag_name }}"
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          rep: ${{ github.event.release.tag_name }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
   
       
       
