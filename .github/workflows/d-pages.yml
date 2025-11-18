@@ -3,7 +3,12 @@ name: Deploy-pages
 on:
   release:
     types: [published, edited, created]
-
+    
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
