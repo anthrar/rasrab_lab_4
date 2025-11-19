@@ -2,8 +2,13 @@ name: Deploy-pages
 
 on:
   release:
-    types: [published, edited]
-
+    types: [edited, created]
+    
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,8 +18,13 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
+          ref: gh-pages
+      - name: add_version
+        run: |
+          export TAG_NAME="${{ github.event.release.tag_name }}"
+          git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
+          git restore "$TAG_NAME"
+          git config --global user.name 'Auto Deploy'
+          git config --global user.email 'anthrar@users.noreply.github.com'
+          git commit -am "Опубликован релиз $TAG_NAME"
+          
