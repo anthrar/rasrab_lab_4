@@ -24,12 +24,12 @@ jobs:
       - name: add_version
         run: echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
       - run: echo "TAG_NAME $TAG_NAME"
-      - run: git pull origin "$TAG_NAME"
-      - run: git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
-      - run: git restore "$TAG_NAME"
       - run: |
           git config --global user.name 'Auto Deploy'
           git config --global user.email 'anthrar@users.noreply.github.com'
+      - run: git pull
+      - run: git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
+      - run: git restore "$TAG_NAME"
       - run: git commit -am "Опубликован релиз $TAG_NAME"
       - run: git push origin gh-pages
 
