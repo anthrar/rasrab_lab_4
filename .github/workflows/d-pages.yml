@@ -24,7 +24,7 @@ jobs:
       - name: add_version
         run: echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
       - run: echo "TAG_NAME $TAG_NAME"
-      - run: git fetch "$TAG_NAME"
+      - run: git fetch origin "$TAG_NAME"
       - run: git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
       - run: git restore "$TAG_NAME"
       - run: |
