@@ -1,0 +1,35 @@
+name: Deploy-pages
+
+on:
+  release:
+    types: [edited, created]
+    
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: info
+        run: echo "deploying tag ${{ github.event.release.tag_name }}"
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: add_version
+        run: echo "TAG_NAME=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      - run: echo "TAG_NAME $TAG_NAME"
+      - run: |
+          git config --global user.name 'Auto Deploy'
+          git config --global user.email 'anthrar@users.noreply.github.com'
+      - run: git pull
+      - run: git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
+      - run: git restore "$TAG_NAME"
+      - run: git commit -am "Опубликован релиз $TAG_NAME"
+      - run: git push origin gh-pages
+
