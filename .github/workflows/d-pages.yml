@@ -30,7 +30,7 @@ jobs:
       - run: git pull
       - run: git read-tree --prefix="$TAG_NAME" "$TAG_NAME"
       - run: git restore "$TAG_NAME"
-      - run: git rm -r "$TAG_NAME"/.github
+      - run: git rm -r -f --ignore-unmatch "$TAG_NAME"/.github
       - run: find -maxdepth 1 -not \( -name "v*" -or -name ".git" -or -name "." \) -exec rm -r {} +
       - run: cp -a "$TAG_NAME"/* ./
       - run: git commit -am "Опубликован релиз $TAG_NAME"
