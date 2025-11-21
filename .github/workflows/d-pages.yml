@@ -2,7 +2,7 @@ name: Deploy-pages
 
 on:
   release:
-    types: [edited, created]
+    types: [created]
     
 permissions:
   contents: write
