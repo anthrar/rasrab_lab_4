@@ -1,0 +1,22 @@
+name: Create and delete
+
+on: 
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, world!" > somefile
+      - run: pwd
+  job2:
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+      - run: cd /
+      - run: rm $GITHUB_WORKSPACE/somefile
